@@ -1,0 +1,81 @@
+# Ignore Rider specific files
+.idea/
+.idea_modules/
+*.sln.iml
+
+# User-specific files
+*.rsuser
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+
+# Auto-generated files
+*.generated.cs
+
+# Build results
+[Dd]ebug/
+[Rr]elease/
+x64/
+x86/
+[Aa][Rr][Mm]/
+[Aa][Rr][Mm]64/
+bld/
+[Bb]in/
+[Oo]bj/
+[Ll]og/
+[Bb]uild[Ll]ogs/
+
+# Uncomment if you have tasks that create the project's static files in wwwroot
+#wwwroot/
+
+# Rider settings files
+.idea/
+.idea_modules/
+.idea-misc.xml
+*.iml
+*.sln.iml
+
+# Ignore files for other JetBrains IDEs
+*.ipr
+*.iws
+
+# Visual Studio specific files
+.vs/
+.vscode/
+*.csproj.user
+*.sln.docstates
+
+# Windows image file caches
+Thumbs.db
+ehthumbs.db
+
+# Folder config file
+Desktop.ini
+
+# Recycle Bin used on file shares
+$RECYCLE.BIN/
+
+# OSX generated files
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# Thumbnails
+._*
+
+# Application-specific
+*.pidb
+*.suo
+*.user
+*.userprefs
+
+# Rider's backend indexing
+.idea/
+
+# Rider File-specific settings
+*.iml
+
+# Temporary file storage and tempdirs
+temp
+.tmp

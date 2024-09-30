@@ -1,0 +1,16 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LogifyBackEnd", "LogifyBackEnd\LogifyBackEnd.csproj", "{AB5E9A8B-8E53-488C-96BA-B2848F8FD241}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{AB5E9A8B-8E53-488C-96BA-B2848F8FD241}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AB5E9A8B-8E53-488C-96BA-B2848F8FD241}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AB5E9A8B-8E53-488C-96BA-B2848F8FD241}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AB5E9A8B-8E53-488C-96BA-B2848F8FD241}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal
