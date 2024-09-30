@@ -7,4 +7,5 @@ public class Attachment
     public int DocumentId { get; set; } // Foreign Key to Document
     public Message Message { get; set; }
     public Document Document { get; set; }
+    //test
 }
