@@ -5,6 +5,7 @@ using LogifyBackEnd.Data;
 using LogifyBackEnd.Data.DTOs;
 using LogifyBackEnd.Models;
 using LogifyBackEnd.Services.Interfaces;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 
 namespace LogifyBackEnd.Services;
@@ -42,12 +43,12 @@ public class UserService : IUserService
         var user = await _context.Users
             .FirstOrDefaultAsync(u => u.PhoneNumber == loginDto.PhoneNumber);
 
-        if (user == null || !VerifyPassword(loginDto.Password, user.HashedPassword))
+        if (user == null || !VerifyPassword(loginDto.Password, user.PasswordHash))
         {
-            return null; // Invalid credentials
+            return null;
         }
 
-        return CreateJwtToken(user); // Generate and return token
+        return CreateJwtToken(user);
     }
 
     private string CreateJwtToken(User user)
