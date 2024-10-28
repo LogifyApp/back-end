@@ -79,3 +79,9 @@ $RECYCLE.BIN/
 # Temporary file storage and tempdirs
 temp
 .tmp
+
+# Ignore appsettings files with sensitive data
+appsettings.Development.json
+
+# Or, ignore all appsettings.json files in general (less common)
+appsettings*.json
