@@ -16,7 +16,7 @@ public class DriverController : ControllerBase
     }
 
     // a. Accept request from employer
-    [HttpPost("{driverId}/accept-request")]
+    [HttpPut("{driverId}/accept-request")]
     public async Task<IActionResult> AcceptRequest(int driverId, [FromBody] AcceptRequestDto dto)
     {
         if (dto.DriverId != driverId)

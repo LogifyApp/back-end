@@ -1,5 +1,6 @@
 using LogifyBackEnd.Data;
 using LogifyBackEnd.Models;
+using LogifyBackEnd.Models.Enums;
 using LogifyBackEnd.Services.Interfaces;
 using Microsoft.EntityFrameworkCore;
 
@@ -27,12 +28,12 @@ public class EmployerService : IEmployerService
     public async Task<bool> SendRequestToDriver(int employerId, string driverPhoneNumber)
     {
         var driver = await _context.Drivers.Include(d => d.User)
-            .FirstOrDefaultAsync(d => d.User.PhoneNumber == driverPhoneNumber && d.Status != "Occupied");
+            .FirstOrDefaultAsync(d => d.User.PhoneNumber == driverPhoneNumber && d.Status == DriverStatus.WithoutEmp);
 
         if (driver == null)
             return false;
 
-        driver.Status = "Requested";
+        driver.Status = DriverStatus.Pending;
         await _context.SaveChangesAsync();
         return true;
     }
