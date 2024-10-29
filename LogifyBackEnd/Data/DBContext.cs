@@ -74,7 +74,7 @@ public class DBContext : DbContext
 
         modelBuilder.Entity<Point>()
             .HasOne(p => p.Cargo)
-            .WithMany()
+            .WithMany(c => c.Points)
             .HasForeignKey(p => p.CargoId);
 
         modelBuilder.Entity<Document>()

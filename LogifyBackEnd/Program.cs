@@ -1,5 +1,6 @@
 using System.Text;
 using LogifyBackEnd.Data;
+using LogifyBackEnd.Models;
 using LogifyBackEnd.Services;
 using LogifyBackEnd.Services.Interfaces;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -38,6 +39,7 @@ builder.Services.AddAuthentication(options =>
 
 // Register UserService for dependency injection
 builder.Services.AddScoped<IUserService, UserService>();
+builder.Services.AddScoped<ICargoService, CargoService>();
 
 var app = builder.Build();
 
