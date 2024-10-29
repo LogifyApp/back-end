@@ -1,12 +1,21 @@
-﻿namespace LogifyBackEnd.Models;
+﻿using System;
+using System.Collections.Generic;
 
-public class Point
+namespace LogifyBackEnd.Models;
+
+public partial class Point
 {
-    public int Id { get; set; } // Primary Key
-    public string Label { get; set; }
+    public int Id { get; set; }
+
+    public string Label { get; set; } = null!;
+
     public int Latitude { get; set; }
+
     public int Longitude { get; set; }
+
     public int Order { get; set; }
-    public int CargoId { get; set; } // Foreign Key to Cargo
-    public Cargo Cargo { get; set; }
+
+    public int CargoId { get; set; }
+
+    public virtual Cargo Cargo { get; set; } = null!;
 }

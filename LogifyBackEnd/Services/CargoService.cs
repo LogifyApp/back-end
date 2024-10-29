@@ -20,8 +20,8 @@ public class CargoService : ICargoService
             .Where(c => c.EmployerUserId == employerId)
             .OrderBy(c => c.Status) // Sorting by status
             .Include(c => c.Car)
-            .Include(c => c.Driver)
-            .Include(c => c.Employer)
+            .Include(c => c.DriverUser)
+            .Include(c => c.EmployerUser)
             .Include(c => c.Points) // Include Points
             .ToListAsync();
     }
@@ -32,8 +32,8 @@ public class CargoService : ICargoService
             .Where(c => c.EmployerUserId == employerId && c.DriverUserId == driverId)
             .OrderBy(c => c.Status)
             .Include(c => c.Car)
-            .Include(c => c.Driver)
-            .Include(c => c.Employer)
+            .Include(c => c.DriverUser)
+            .Include(c => c.EmployerUser)
             .Include(c => c.Points) // Include Points
             .ToListAsync();
     }

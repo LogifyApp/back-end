@@ -1,11 +1,17 @@
-﻿namespace LogifyBackEnd.Models;
+﻿using System;
+using System.Collections.Generic;
 
-public class Attachment
+namespace LogifyBackEnd.Models;
+
+public partial class Attachment
 {
-    public int Id { get; set; } // Primary Key
-    public int MessageId { get; set; } // Foreign Key to Message
-    public int DocumentId { get; set; } // Foreign Key to Document
-    public Message Message { get; set; }
-    public Document Document { get; set; }
-    //test
+    public int Id { get; set; }
+
+    public int MessageId { get; set; }
+
+    public int DocumentId { get; set; }
+
+    public virtual Document Document { get; set; } = null!;
+
+    public virtual Message Message { get; set; } = null!;
 }

@@ -1,20 +1,31 @@
-﻿using LogifyBackEnd.Models.Enums;
+﻿using System;
+using System.Collections.Generic;
 
 namespace LogifyBackEnd.Models;
 
-public class Cargo
+public partial class Cargo
 {
-    public int Id { get; set; } // Primary Key
-    public CargoStatus Status { get; set; }
+    public int Id { get; set; }
+
+    public string Status { get; set; } = null!;
 
     public DateTime CreationDate { get; set; }
-    public string Description { get; set; }
-    public string CarId { get; set; } // Foreign Key to Car
-    public int DriverUserId { get; set; } // Foreign Key to Driver
-    public int EmployerUserId { get; set; } // Foreign Key to Employer
-    public Car Car { get; set; }
-    public Driver Driver { get; set; }
-    public Employer Employer { get; set; }
-    
-    public List<Point> Points { get; set; }
+
+    public string Description { get; set; } = null!;
+
+    public string CarId { get; set; } = null!;
+
+    public int DriverUserId { get; set; }
+
+    public int EmployerUserId { get; set; }
+
+    public virtual Car Car { get; set; } = null!;
+
+    public virtual ICollection<CargoDocument> CargoDocuments { get; set; } = new List<CargoDocument>();
+
+    public virtual Driver DriverUser { get; set; } = null!;
+
+    public virtual Employer EmployerUser { get; set; } = null!;
+
+    public virtual ICollection<Point> Points { get; set; } = new List<Point>();
 }

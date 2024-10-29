@@ -1,10 +1,21 @@
-﻿namespace LogifyBackEnd.Models;
+﻿using System;
+using System.Collections.Generic;
 
-public class Document
+namespace LogifyBackEnd.Models;
+
+public partial class Document
 {
-    public int Id { get; set; } // Primary Key
-    public string Filename { get; set; }
+    public int Id { get; set; }
+
+    public string Filename { get; set; } = null!;
+
     public int MongoId { get; set; }
-    public string Filetype { get; set; }
-    public string FileURL { get; set; }
+
+    public string Filetype { get; set; } = null!;
+
+    public string FileUrl { get; set; } = null!;
+
+    public virtual ICollection<Attachment> Attachments { get; set; } = new List<Attachment>();
+
+    public virtual ICollection<CargoDocument> CargoDocuments { get; set; } = new List<CargoDocument>();
 }

@@ -1,12 +1,20 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System;
+using System.Collections.Generic;
 using LogifyBackEnd.Models.Enums;
 
 namespace LogifyBackEnd.Models;
 
-public class Driver
+public partial class Driver
 {
-    [Key]
-    public int UserId { get; set; } // Foreign Key to User
+    public int UserId { get; set; }
+
     public DriverStatus Status { get; set; }
-    public User User { get; set; }
+
+    public virtual ICollection<Cargo> Cargos { get; set; } = new List<Cargo>();
+
+    public virtual ICollection<Chat> Chats { get; set; } = new List<Chat>();
+
+    public virtual ICollection<EmployerDriverHistory> EmployerDriverHistories { get; set; } = new List<EmployerDriverHistory>();
+
+    public virtual User User { get; set; } = null!;
 }

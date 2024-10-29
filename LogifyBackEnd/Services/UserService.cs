@@ -27,7 +27,7 @@ public class UserService : IUserService
             // Hash the password
             var hashedPassword = HashPassword(registerDto.Password);
 
-            // Create User
+            // Create User with hashed password
             var user = new User
             {
                 Name = registerDto.Name,
@@ -37,31 +37,26 @@ public class UserService : IUserService
                 Role = registerDto.Role
             };
 
+            // Check the role and assign the corresponding entity
+            if (registerDto.Role.Equals("driver", StringComparison.OrdinalIgnoreCase))
+            {
+                user.Driver = new Driver
+                {
+                    Status = DriverStatus.WithoutEmp
+                };
+            }
+            else if (registerDto.Role.Equals("employer", StringComparison.OrdinalIgnoreCase))
+            {
+                user.Employer = new Employer();
+            }
+
+            // Add the user to the context, EF will handle setting the ID for related entities
             _context.Users.Add(user);
             await _context.SaveChangesAsync();
 
-            // Create either a Driver or Employer based on role
-            if (registerDto.Role.ToLower() == "driver")
-            {
-                var driver = new Driver
-                {
-                    UserId = user.Id,
-                    Status = DriverStatus.WithoutEmp
-                };
-                _context.Drivers.Add(driver);
-            }
-            else if (registerDto.Role.ToLower() == "employer")
-            {
-                var employer = new Employer
-                {
-                    UserId = user.Id
-                };
-                _context.Employers.Add(employer);
-            }
-
-            await _context.SaveChangesAsync();
             return user;
         }
+
 
         public async Task<string> Login(LoginDto loginDto)
         {

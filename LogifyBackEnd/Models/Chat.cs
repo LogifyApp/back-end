@@ -1,11 +1,21 @@
-﻿namespace LogifyBackEnd.Models;
+﻿using System;
+using System.Collections.Generic;
 
-public class Chat
+namespace LogifyBackEnd.Models;
+
+public partial class Chat
 {
-    public int Id { get; set; } // Primary Key
+    public int Id { get; set; }
+
     public DateTime StartDate { get; set; }
-    public int OwnerUserId { get; set; } // Foreign Key to User
-    public int DriverUserId { get; set; } // Foreign Key to Driver
-    public User Owner { get; set; }
-    public Driver Driver { get; set; }
+
+    public int OwnerUserId { get; set; }
+
+    public int DriverUserId { get; set; }
+
+    public virtual Driver DriverUser { get; set; } = null!;
+
+    public virtual ICollection<Message> Messages { get; set; } = new List<Message>();
+
+    public virtual Employer OwnerUser { get; set; } = null!;
 }
