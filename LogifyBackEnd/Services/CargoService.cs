@@ -1,5 +1,6 @@
 using LogifyBackEnd.Data;
 using LogifyBackEnd.Data.DTOs;
+using LogifyBackEnd.Data.DTOs.CargosDTOs;
 using LogifyBackEnd.Exceptions;
 using LogifyBackEnd.Models;
 using LogifyBackEnd.Models.Enums;

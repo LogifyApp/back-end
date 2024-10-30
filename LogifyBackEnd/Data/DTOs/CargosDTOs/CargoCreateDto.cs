@@ -1,6 +1,4 @@
-using LogifyBackEnd.Models.Enums;
-
-namespace LogifyBackEnd.Data.DTOs;
+namespace LogifyBackEnd.Data.DTOs.CargosDTOs;
 
 public class CargoCreateDto
 {

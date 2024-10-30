@@ -1,4 +1,5 @@
 using LogifyBackEnd.Data.DTOs;
+using LogifyBackEnd.Data.DTOs.MiddlewareDTOs;
 using LogifyBackEnd.Models;
 
 namespace LogifyBackEnd.Services.Interfaces;

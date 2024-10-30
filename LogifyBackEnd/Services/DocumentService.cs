@@ -1,5 +1,6 @@
 using LogifyBackEnd.Data;
 using LogifyBackEnd.Data.DTOs;
+using LogifyBackEnd.Data.DTOs.DocumentsDTOs;
 using LogifyBackEnd.Models;
 using LogifyBackEnd.Services.Interfaces;
 using MongoDB.Bson;

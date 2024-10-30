@@ -1,4 +1,5 @@
 using LogifyBackEnd.Data.DTOs;
+using LogifyBackEnd.Data.DTOs.RequestsDTOs;
 using LogifyBackEnd.Models;
 using LogifyBackEnd.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;

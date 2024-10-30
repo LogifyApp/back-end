@@ -1,6 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 
-namespace LogifyBackEnd.Data.DTOs;
+namespace LogifyBackEnd.Data.DTOs.MiddlewareDTOs;
 
 public class RegisterDto
 {

@@ -1,4 +1,6 @@
-namespace LogifyBackEnd.Data.DTOs;
+using LogifyBackEnd.Data.DTOs.PointsDTOs;
+
+namespace LogifyBackEnd.Data.DTOs.CargosDTOs;
 
 public class CargoDto
 {

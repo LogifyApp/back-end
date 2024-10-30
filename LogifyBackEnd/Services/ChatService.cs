@@ -1,5 +1,6 @@
 using LogifyBackEnd.Data;
 using LogifyBackEnd.Data.DTOs;
+using LogifyBackEnd.Data.DTOs.ChatsDTOs;
 using LogifyBackEnd.Models;
 using LogifyBackEnd.Services.Interfaces;
 using Microsoft.EntityFrameworkCore;

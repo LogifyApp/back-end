@@ -3,6 +3,7 @@ using System.Security.Claims;
 using System.Text;
 using LogifyBackEnd.Data;
 using LogifyBackEnd.Data.DTOs;
+using LogifyBackEnd.Data.DTOs.MiddlewareDTOs;
 using LogifyBackEnd.Models;
 using LogifyBackEnd.Models.Enums;
 using LogifyBackEnd.Services.Interfaces;

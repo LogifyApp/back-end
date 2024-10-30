@@ -1,5 +1,6 @@
 using LogifyBackEnd.Data;
 using LogifyBackEnd.Data.DTOs;
+using LogifyBackEnd.Data.DTOs.MessagesDTOs;
 using LogifyBackEnd.Models;
 using LogifyBackEnd.Services.Interfaces;
 

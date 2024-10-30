@@ -1,4 +1,4 @@
-namespace LogifyBackEnd.Data.DTOs;
+namespace LogifyBackEnd.Data.DTOs.DocumentsDTOs;
 
 public class UploadDocumentDto
 {

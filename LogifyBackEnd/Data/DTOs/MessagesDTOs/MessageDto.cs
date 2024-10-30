@@ -1,4 +1,4 @@
-namespace LogifyBackEnd.Data.DTOs;
+namespace LogifyBackEnd.Data.DTOs.MessagesDTOs;
 
 public class MessageDto
 {
