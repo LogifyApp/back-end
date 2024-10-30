@@ -6,6 +6,7 @@ using LogifyBackEnd.Services.Interfaces;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
+using MongoDB.Driver;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -43,12 +44,24 @@ builder.Services.AddAuthentication(options =>
         };
     });
 
+// Configure MongoDB Settings
+builder.Services.Configure<MongoDBSettings>(builder.Configuration.GetSection("MongoDBSettings"));
+
+// Register MongoDB Client as a Singleton
+builder.Services.AddSingleton<IMongoClient>(s =>
+    new MongoClient(builder.Configuration.GetValue<string>("MongoDBSettings:ConnectionString")));
+
+builder.Services.AddScoped<IMongoDatabase>(s =>
+    s.GetRequiredService<IMongoClient>().GetDatabase(builder.Configuration.GetValue<string>("MongoDBSettings:DatabaseName")));
+
+
 // Register UserService for dependency injection
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<ICargoService, CargoService>();
 builder.Services.AddScoped<IEmployerService, EmployerService>();
 builder.Services.AddScoped<IDriverService, DriverService>();
 builder.Services.AddScoped<ICarService, CarService>();
+builder.Services.AddScoped<IDocumentService, DocumentService>();
 
 
 var app = builder.Build();

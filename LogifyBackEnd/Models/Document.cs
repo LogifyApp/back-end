@@ -9,7 +9,7 @@ public partial class Document
 
     public string Filename { get; set; } = null!;
 
-    public int MongoId { get; set; }
+    public string MongoId { get; set; } = null!;
 
     public string Filetype { get; set; } = null!;
 
