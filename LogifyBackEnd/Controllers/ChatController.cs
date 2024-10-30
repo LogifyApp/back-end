@@ -6,21 +6,14 @@ namespace LogifyBackEnd.Controllers;
 
 [ApiController]
 [Route("api/[controller]")]
-public class ChatController : ControllerBase
+public class ChatController(IChatService chatService) : ControllerBase
 {
-    private readonly IChatService _chatService;
-
-    public ChatController(IChatService chatService)
-    {
-        _chatService = chatService;
-    }
-
     [HttpPost("create")]
     public async Task<IActionResult> CreateChat([FromBody] CreateChatDto dto)
     {
         try
         {
-            var chat = await _chatService.CreateChat(dto.EmployerUserId, dto.DriverUserId);
+            var chat = await chatService.CreateChat(dto.EmployerUserId, dto.DriverUserId);
             return Ok(chat);
         }
         catch (Exception ex)
@@ -32,7 +25,7 @@ public class ChatController : ControllerBase
     [HttpDelete("{chatId}")]
     public async Task<IActionResult> DeleteChat(int chatId)
     {
-        var success = await _chatService.DeleteChat(chatId);
+        var success = await chatService.DeleteChat(chatId);
         return success ? Ok("Chat deleted") : NotFound("Chat not found");
     }
 }
