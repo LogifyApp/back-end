@@ -5,15 +5,8 @@ using Microsoft.EntityFrameworkCore;
 
 namespace LogifyBackEnd.Services;
 
-public class CarService : ICarService
+public class CarService(DBContext context) : ICarService
 {
-    private readonly DBContext _context;
-
-    public CarService(DBContext context)
-    {
-        _context = context;
-    }
-
     public async Task<Car> AddCar(int employerId, string number, string? model = null, string? brand = null)
     {
         var car = new Car
@@ -26,14 +19,14 @@ public class CarService : ICarService
             EmployerUserId = employerId
         };
 
-        _context.Cars.Add(car);
-        await _context.SaveChangesAsync();
+        context.Cars.Add(car);
+        await context.SaveChangesAsync();
         return car;
     }
 
     public async Task<Car?> UpdateCar(string carNumber, string? model, string? brand, bool status)
     {
-        var car = await _context.Cars.FirstOrDefaultAsync(c => c.Number == carNumber);
+        var car = await context.Cars.FirstOrDefaultAsync(c => c.Number == carNumber);
         if (car == null || car.IsDeleted)
         {
             return null;
@@ -42,33 +35,33 @@ public class CarService : ICarService
         car.Model = model ?? car.Model;
         car.Brand = brand ?? car.Brand;
         car.Status = status;
-        await _context.SaveChangesAsync();
+        await context.SaveChangesAsync();
 
         return car;
     }
 
     public async Task<Car?> SoftDeleteCar(string carNumber)
     {
-        var car = await _context.Cars.FirstOrDefaultAsync(c => c.Number == carNumber);
+        var car = await context.Cars.FirstOrDefaultAsync(c => c.Number == carNumber);
         if (car == null)
         {
             return null;
         }
 
         car.IsDeleted = true;
-        await _context.SaveChangesAsync();
+        await context.SaveChangesAsync();
 
         return car;
     }
 
     public async Task<Car?> GetCar(string carNumber)
     {
-        return await _context.Cars.FirstOrDefaultAsync(c => c.Number == carNumber && !c.IsDeleted);
+        return await context.Cars.FirstOrDefaultAsync(c => c.Number == carNumber && !c.IsDeleted);
     }
 
     public async Task<List<Car>> GetListOfCars(int employerId)
     {
-        return await _context.Cars
+        return await context.Cars
             .Where(c => c.EmployerUserId == employerId && !c.IsDeleted)
             .ToListAsync();
     }

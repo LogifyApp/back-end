@@ -11,23 +11,12 @@ using Microsoft.IdentityModel.Tokens;
 
 namespace LogifyBackEnd.Services;
 
-public class UserService : IUserService
-    {
-        private readonly DBContext _context;
-        private readonly IConfiguration _configuration;
-
-        public UserService(DBContext context, IConfiguration configuration)
+public class UserService(DBContext context, IConfiguration configuration) : IUserService
+{
+    public async Task<User> Register(RegisterDto registerDto)
         {
-            _context = context;
-            _configuration = configuration;
-        }
-
-        public async Task<User> Register(RegisterDto registerDto)
-        {
-            // Hash the password
             var hashedPassword = HashPassword(registerDto.Password);
 
-            // Create User with hashed password
             var user = new User
             {
                 Name = registerDto.Name,
@@ -37,7 +26,6 @@ public class UserService : IUserService
                 Role = registerDto.Role
             };
 
-            // Check the role and assign the corresponding entity
             if (registerDto.Role.Equals("driver", StringComparison.OrdinalIgnoreCase))
             {
                 user.Driver = new Driver
@@ -50,9 +38,8 @@ public class UserService : IUserService
                 user.Employer = new Employer();
             }
 
-            // Add the user to the context, EF will handle setting the ID for related entities
-            _context.Users.Add(user);
-            await _context.SaveChangesAsync();
+            context.Users.Add(user);
+            await context.SaveChangesAsync();
 
             return user;
         }
@@ -60,7 +47,7 @@ public class UserService : IUserService
 
         public async Task<string> Login(LoginDto loginDto)
         {
-            var user = await _context.Users
+            var user = await context.Users
                 .FirstOrDefaultAsync(u => u.PhoneNumber == loginDto.PhoneNumber);
 
             if (user == null || !VerifyPassword(loginDto.Password, user.PasswordHash))
@@ -81,12 +68,12 @@ public class UserService : IUserService
                 new Claim(ClaimTypes.Role, user.Role)
             };
 
-            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["Jwt:Key"]));
+            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configuration["Jwt:Key"]));
             var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
 
             var token = new JwtSecurityToken(
-                issuer: _configuration["Jwt:Issuer"],
-                audience: _configuration["Jwt:Audience"],
+                issuer: configuration["Jwt:Issuer"],
+                audience: configuration["Jwt:Audience"],
                 claims: claims,
                 expires: DateTime.Now.AddHours(1),
                 signingCredentials: creds);

@@ -199,6 +199,11 @@ public partial class DBContext : DbContext
                 .HasForeignKey<Driver>(d => d.UserId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("Driver_User");
+            
+            entity.Property(d => d.Status)
+                .HasConversion<string>();
+            
+            base.OnModelCreating(modelBuilder);
         });
 
         modelBuilder.Entity<Employer>(entity =>

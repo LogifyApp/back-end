@@ -12,9 +12,6 @@ public class DriverController(IDriverService driverService) : ControllerBase
     [HttpPut("{driverId}/accept-request")]
     public async Task<IActionResult> AcceptRequest(int driverId, [FromBody] AcceptRequestDto dto)
     {
-        if (dto.DriverId != driverId)
-            return BadRequest("Driver ID mismatch");
-
         var success = await driverService.AcceptRequest(dto.EmployerId, driverId);
         return success ? Ok("Request accepted") : NotFound("Unable to accept request");
     }

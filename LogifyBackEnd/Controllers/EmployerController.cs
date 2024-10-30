@@ -21,9 +21,6 @@ public class EmployerController(IEmployerService employerService) : ControllerBa
     [HttpPost("{employerId}/request-driver")]
     public async Task<IActionResult> SendRequestToDriver(int employerId, [FromBody] SendRequestToDriverDto dto)
     {
-        if (dto.EmployerId != employerId)
-            return BadRequest("Employer ID mismatch");
-
         var success = await employerService.SendRequestToDriver(employerId, dto.DriverPhoneNumber);
         return success ? Ok("Request sent") : NotFound("Driver not available");
     }
