@@ -1,3 +1,4 @@
+using LogifyBackEnd.Data.DTOs;
 using LogifyBackEnd.Models;
 using LogifyBackEnd.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
@@ -30,9 +31,9 @@ public class CargoController : ControllerBase
     }
 
     [HttpPost]
-    public async Task<ActionResult<Cargo>> CreateCargo([FromBody] Cargo cargo)
+    public async Task<ActionResult<Cargo>> CreateCargo([FromBody] CargoCreateDto cargoDto)
     {
-        var createdCargo = await _cargoService.CreateCargo(cargo);
+        var createdCargo = await _cargoService.CreateCargo(cargoDto);
         return CreatedAtAction(nameof(CreateCargo), new { id = createdCargo.Id }, createdCargo);
     }
 

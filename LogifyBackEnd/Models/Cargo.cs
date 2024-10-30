@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using LogifyBackEnd.Models.Enums;
 
 namespace LogifyBackEnd.Models;
 
@@ -7,7 +8,7 @@ public partial class Cargo
 {
     public int Id { get; set; }
 
-    public string Status { get; set; } = null!;
+    public CargoStatus Status { get; set; }
 
     public DateTime CreationDate { get; set; }
 
