@@ -7,6 +7,9 @@ namespace LogifyBackEnd.Services;
 
 public class MessageService(DBContext context) : IMessageService
 {
+    
+//TODO Make some tag for empty message(for message that consists of just attachment), not to show up it on chat, but block ability to send empty messages
+    
     public async Task<MessageDto> CreateMessage(CreateMessageDto createMessageDto)
     {
         var message = new Message

@@ -63,6 +63,8 @@ builder.Services.AddScoped<IDriverService, DriverService>();
 builder.Services.AddScoped<ICarService, CarService>();
 builder.Services.AddScoped<IDocumentService, DocumentService>();
 builder.Services.AddScoped<IChatService, ChatService>();
+builder.Services.AddScoped<IMessageService, MessageService>();
+builder.Services.AddScoped<IAttachmentService, AttachmentService>();
 
 
 var app = builder.Build();
