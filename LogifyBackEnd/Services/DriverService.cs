@@ -5,7 +5,7 @@ using LogifyBackEnd.Services.Interfaces;
 
 namespace LogifyBackEnd.Services;
 
-public class DriverService(DBContext context) : IDriverService
+public class DriverService(DBContext context, IChatService chatService) : IDriverService
 {
     public async Task<bool> AcceptRequest(int employerId, int driverId)
     {
@@ -25,6 +25,8 @@ public class DriverService(DBContext context) : IDriverService
         };
 
         context.EmployerDriverHistories.Add(historyEntry);
+
+        await chatService.CreateChat(employerId, driverId);
 
         await context.SaveChangesAsync();
         return true;

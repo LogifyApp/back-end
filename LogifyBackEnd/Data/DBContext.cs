@@ -148,7 +148,7 @@ public partial class DBContext : DbContext
             entity.ToTable("Chat");
 
             entity.Property(e => e.DriverUserId).HasColumnName("Driver_User_Id");
-            entity.Property(e => e.OwnerUserId).HasColumnName("Owner_User_Id");
+            entity.Property(e => e.EmployerUserId).HasColumnName("Owner_User_Id");
             entity.Property(e => e.StartDate)
                 .HasColumnType("datetime")
                 .HasColumnName("Start_date");
@@ -158,8 +158,8 @@ public partial class DBContext : DbContext
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("Chat_Driver");
 
-            entity.HasOne(d => d.OwnerUser).WithMany(p => p.Chats)
-                .HasForeignKey(d => d.OwnerUserId)
+            entity.HasOne(d => d.EmployerUser).WithMany(p => p.Chats)
+                .HasForeignKey(d => d.EmployerUserId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("Chat_Owner");
         });

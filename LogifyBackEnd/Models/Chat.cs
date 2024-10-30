@@ -9,7 +9,7 @@ public partial class Chat
 
     public DateTime StartDate { get; set; }
 
-    public int OwnerUserId { get; set; }
+    public int EmployerUserId { get; set; }
 
     public int DriverUserId { get; set; }
 
@@ -17,5 +17,5 @@ public partial class Chat
 
     public virtual ICollection<Message> Messages { get; set; } = new List<Message>();
 
-    public virtual Employer OwnerUser { get; set; } = null!;
+    public virtual Employer EmployerUser { get; set; } = null!;
 }
