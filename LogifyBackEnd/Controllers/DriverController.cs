@@ -6,15 +6,8 @@ namespace LogifyBackEnd.Controllers;
 
 [ApiController]
 [Route("api/[controller]")]
-public class DriverController : ControllerBase
+public class DriverController(IDriverService driverService) : ControllerBase
 {
-    private readonly IDriverService _driverService;
-
-    public DriverController(IDriverService driverService)
-    {
-        _driverService = driverService;
-    }
-
     // a. Accept request from employer
     [HttpPut("{driverId}/accept-request")]
     public async Task<IActionResult> AcceptRequest(int driverId, [FromBody] AcceptRequestDto dto)
@@ -22,7 +15,7 @@ public class DriverController : ControllerBase
         if (dto.DriverId != driverId)
             return BadRequest("Driver ID mismatch");
 
-        var success = await _driverService.AcceptRequest(dto.EmployerId, driverId);
+        var success = await driverService.AcceptRequest(dto.EmployerId, driverId);
         return success ? Ok("Request accepted") : NotFound("Unable to accept request");
     }
 }

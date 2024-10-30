@@ -1,5 +1,6 @@
 using LogifyBackEnd.Data;
 using LogifyBackEnd.Data.DTOs;
+using LogifyBackEnd.Exceptions;
 using LogifyBackEnd.Models;
 using LogifyBackEnd.Models.Enums;
 using LogifyBackEnd.Services.Interfaces;
@@ -7,27 +8,17 @@ using Microsoft.EntityFrameworkCore;
 
 namespace LogifyBackEnd.Services;
 
-public class CargoService : ICargoService
+public class CargoService(DBContext context, ILogger<CargoService> logger) : ICargoService
 {
-    private readonly DBContext _context;
-    private readonly ILogger<CargoService> _logger;
-
-    public CargoService(DBContext context, ILogger<CargoService> logger)
-    {
-        _context = context;
-        _logger = logger;
-    }
-
     public async Task<List<Cargo>> ReturnListOfCargos(int employerId)
     {
-        // Check if Employer exists
-        if (!await _context.Users.AnyAsync(u => u.Id == employerId && u.Role == "employer"))
+        if (!await context.Users.AnyAsync(u => u.Id == employerId && u.Role == "employer"))
         {
-            _logger.LogWarning($"Employer with ID {employerId} not found.");
-            return null; // Or throw a custom NotFoundException
+            logger.LogWarning($"Employer with ID {employerId} not found.");
+            throw new InvalidUserRoleException($"User with ID {employerId} does not have the 'employer' role.");
         }
 
-        return await _context.Cargos
+        return await context.Cargos
             .Where(c => c.EmployerUserId == employerId)
             .OrderBy(c => c.Status)
             .Include(c => c.Car)
@@ -39,17 +30,16 @@ public class CargoService : ICargoService
 
     public async Task<List<Cargo>> ReturnListOfCargosByDriver(int employerId, int driverId)
     {
-        // Check if Employer and Driver exist
-        var employerExists = await _context.Users.AnyAsync(u => u.Id == employerId && u.Role == "employer");
-        var driverExists = await _context.Users.AnyAsync(u => u.Id == driverId && u.Role == "driver");
+        var employerExists = await context.Users.AnyAsync(u => u.Id == employerId && u.Role == "employer");
+        var driverExists = await context.Users.AnyAsync(u => u.Id == driverId && u.Role == "driver");
 
         if (!employerExists || !driverExists)
         {
-            _logger.LogWarning($"Employer ID {employerId} or Driver ID {driverId} not found.");
-            return null; // Or throw a custom NotFoundException
+            logger.LogWarning($"Employer ID {employerId} or Driver ID {driverId} not found.");
+            throw new NotFoundException($"Employer ID {employerId} or Driver with ID {driverId} not found.");
         }
 
-        return await _context.Cargos
+        return await context.Cargos
             .Where(c => c.EmployerUserId == employerId && c.DriverUserId == driverId)
             .OrderBy(c => c.Status)
             .Include(c => c.Car)
@@ -61,14 +51,13 @@ public class CargoService : ICargoService
 
     public async Task<Cargo> CreateCargo(CargoCreateDto cargoDto)
     {
-        // Ensure cargo has a valid EmployerUserId and DriverUserId
-        var employerExists = await _context.Users.AnyAsync(u => u.Id == cargoDto.EmployerUserId && u.Role == "employer");
-        var driverExists = await _context.Users.AnyAsync(u => u.Id == cargoDto.DriverUserId && u.Role == "driver");
+        var employerExists = await context.Users.AnyAsync(u => u.Id == cargoDto.EmployerUserId && u.Role == "employer");
+        var driverExists = await context.Users.AnyAsync(u => u.Id == cargoDto.DriverUserId && u.Role == "driver");
 
         if (!employerExists || !driverExists)
         {
-            _logger.LogWarning("Invalid Employer or Driver ID.");
-            return null; // Or throw an exception
+            logger.LogWarning("Invalid Employer or Driver ID.");
+            throw new NotFoundException($"Invalid Employer or Driver ID.");
         }
         
         var cargo = new Cargo
@@ -81,24 +70,24 @@ public class CargoService : ICargoService
             EmployerUserId = cargoDto.EmployerUserId
         };
 
-        _context.Cargos.Add(cargo);
-        await _context.SaveChangesAsync();
+        context.Cargos.Add(cargo);
+        await context.SaveChangesAsync();
 
-        await _context.Entry(cargo).Collection(c => c.Points).LoadAsync();
+        await context.Entry(cargo).Collection(c => c.Points).LoadAsync();
         return cargo;
     }
 
     public async Task<Cargo> UpdateDescriptionOfCargo(int cargoId, string description)
     {
-        var cargo = await _context.Cargos.FindAsync(cargoId);
+        var cargo = await context.Cargos.FindAsync(cargoId);
         if (cargo == null)
         {
-            _logger.LogWarning($"Cargo with ID {cargoId} not found.");
+            logger.LogWarning($"Cargo with ID {cargoId} not found.");
             return null;
         }
 
         cargo.Description = description;
-        await _context.SaveChangesAsync();
+        await context.SaveChangesAsync();
 
         return cargo;
     }

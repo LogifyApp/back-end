@@ -6,19 +6,12 @@ namespace LogifyBackEnd.Controllers;
 
 [ApiController]
 [Route("api/[controller]")]
-public class UserController : ControllerBase
+public class UserController(IUserService userService) : ControllerBase
 {
-    private readonly IUserService _userService;
-
-    public UserController(IUserService userService)
-    {
-        _userService = userService;
-    }
-
     [HttpPost("register")]
     public async Task<IActionResult> Register([FromBody] RegisterDto registerDto)
     {
-        var user = await _userService.Register(registerDto);
+        var user = await userService.Register(registerDto);
         if (user == null)
             return BadRequest("Registration failed");
 
@@ -28,7 +21,7 @@ public class UserController : ControllerBase
     [HttpPost("login")]
     public async Task<IActionResult> Login([FromBody] LoginDto loginDto)
     {
-        var token = await _userService.Login(loginDto);
+        var token = await userService.Login(loginDto);
         if (string.IsNullOrEmpty(token))
             return Unauthorized();
 

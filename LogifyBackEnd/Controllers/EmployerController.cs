@@ -7,20 +7,13 @@ namespace LogifyBackEnd.Controllers;
 
 [ApiController]
 [Route("api/[controller]")]
-public class EmployerController : ControllerBase
+public class EmployerController(IEmployerService employerService) : ControllerBase
 {
-    private readonly IEmployerService _employerService;
-
-    public EmployerController(IEmployerService employerService)
-    {
-        _employerService = employerService;
-    }
-
     // a. Get list of drivers for an employer
     [HttpGet("{employerId}/drivers")]
     public async Task<ActionResult<List<Driver>>> GetListOfDrivers(int employerId)
     {
-        var drivers = await _employerService.GetListOfDrivers(employerId);
+        var drivers = await employerService.GetListOfDrivers(employerId);
         return Ok(drivers);
     }
 
@@ -31,7 +24,7 @@ public class EmployerController : ControllerBase
         if (dto.EmployerId != employerId)
             return BadRequest("Employer ID mismatch");
 
-        var success = await _employerService.SendRequestToDriver(employerId, dto.DriverPhoneNumber);
+        var success = await employerService.SendRequestToDriver(employerId, dto.DriverPhoneNumber);
         return success ? Ok("Request sent") : NotFound("Driver not available");
     }
 
@@ -39,7 +32,7 @@ public class EmployerController : ControllerBase
     [HttpDelete("{employerId}/delete-driver/{driverId}")]
     public async Task<IActionResult> SoftDeleteDriver(int employerId, int driverId)
     {
-        var success = await _employerService.SoftDeleteDriver(employerId, driverId);
+        var success = await employerService.SoftDeleteDriver(employerId, driverId);
         return success ? Ok("Driver employment ended") : NotFound("Driver history not found");
     }
 }
