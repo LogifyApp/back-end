@@ -1,12 +1,12 @@
 using System.Text;
 using LogifyBackEnd.Data;
-using LogifyBackEnd.Models;
 using LogifyBackEnd.Services;
 using LogifyBackEnd.Services.Interfaces;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using MongoDB.Driver;
+using StackExchange.Redis;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -54,6 +54,16 @@ builder.Services.AddSingleton<IMongoClient>(s =>
 builder.Services.AddScoped<IMongoDatabase>(s =>
     s.GetRequiredService<IMongoClient>().GetDatabase(builder.Configuration.GetValue<string>("MongoDBSettings:DatabaseName")));
 
+builder.Services.AddSingleton<IConnectionMultiplexer>(sp =>
+{
+    var configuration = builder.Configuration.GetSection("Redis")["ConnectionString"];
+    if (string.IsNullOrEmpty(configuration))
+    {
+        throw new ArgumentNullException(nameof(configuration), "Redis connection string is not configured");
+    }
+    return ConnectionMultiplexer.Connect(configuration);
+});
+
 
 // Register UserService for dependency injection
 builder.Services.AddScoped<IUserService, UserService>();
@@ -66,6 +76,7 @@ builder.Services.AddScoped<IChatService, ChatService>();
 builder.Services.AddScoped<IMessageService, MessageService>();
 builder.Services.AddScoped<IAttachmentService, AttachmentService>();
 builder.Services.AddScoped<IPointService, PointService>();
+builder.Services.AddScoped<ICacheService, CacheService>();
 
 
 var app = builder.Build();
